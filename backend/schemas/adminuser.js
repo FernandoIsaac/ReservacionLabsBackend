@@ -7,5 +7,5 @@ var AdminUserSchema = new mongoose.Schema({
   scope : [String]
 });
 
-UserSchema.plugin(uniqueValidator);
-module.exports = mongoose.model('AdminUser', UserSchema);
+AdminUserSchema.plugin(uniqueValidator);
+module.exports = mongoose.model('AdminUser', AdminUserSchema);
