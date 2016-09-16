@@ -17,11 +17,11 @@ exports.endpoints = [{method: 'GET', path: '/', config: {handler: function(reque
 	{method: 'GET', path: '/v1/listLabs', config: labController.listLabs},
 	{method: 'GET', path: '/v1/getLab/{labId}', config: labController.getLab},
 
-	{method: 'POST', path: '/v1/addReservacion', config: labController.addReservacion},
-	{method: 'PUT', path: '/v1/editReservacion/{reservacionId}', config: labController.editReservacion},
-	{method: 'DELETE', path: '/v1/removeReservacion/{reservacionId}', config: labController.removeReservacion},
-	{method: 'GET', path: '/v1/listReservacion', config: labController.listReservacion},
-	{method: 'GET', path: '/v1/getReservacion/{reservacionId}', config: labController.getReservacion},
+	{method: 'POST', path: '/v1/addReservacion', config: reservacionController.addReservacion},
+	{method: 'PUT', path: '/v1/editReservacion/{reservacionId}', config: reservacionController.editReservacion},
+	{method: 'DELETE', path: '/v1/removeReservacion/{reservacionId}', config: reservacionController.removeReservacion},
+	{method: 'GET', path: '/v1/listReservaciones', config: reservacionController.listReservaciones},
+	{method: 'GET', path: '/v1/getReservacion/{reservacionId}', config: reservacionController.getReservacion},
 
 	{method: 'POST', path: '/v1/addDocente', config: docenteController.addDocente},
 	{method: 'GET', path: '/v1/listDocente', config: docenteController.listDocentes},
