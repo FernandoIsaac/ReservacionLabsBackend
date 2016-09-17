@@ -9,7 +9,7 @@ exports.listDocentes = {
 
 exports.addDocente = {
   handler: function(request, reply){
-    var newDocente = new Docente({
+    var newDocente = new docente({
       email: request.payload.email,
       password: request.payload.password,
       primerNombre: request.payload.primerNombre,

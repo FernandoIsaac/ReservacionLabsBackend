@@ -17,7 +17,7 @@ exports.getReservacion = {
 
 exports.addReservacion = {
   handler: function(request, reply){
-    var newReservacion = new Reservacion({
+    var newReservacion = new reservacion({
       id_Reservacion: request.payload.id_Reservacion,
       descripcion: request.payload.descripcion,
       estado: request.payload.estado,

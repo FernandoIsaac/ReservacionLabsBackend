@@ -10,6 +10,7 @@ var DocenteSchema = new mongoose.Schema({
   campus: String,
   departamento: String,
   telefono: String,
+  scope : ['docente']
 });
 
 module.exports = mongoose.model('Docente', DocenteSchema);
