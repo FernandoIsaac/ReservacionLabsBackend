@@ -5,6 +5,7 @@ var LabSchema = new mongoose.Schema({
   nombre: String,
   descripcion: String,
   capacidad: Number,
+  recursos: [String],
 });
 
 module.exports = mongoose.model('Lab', LabSchema);

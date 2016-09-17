@@ -21,6 +21,7 @@ exports.addRecurso = {
       id_Recurso: {type: String, unique: true, required: true},
       nombre: String,
       descripcion: String,
+      recursos: [String],
     });
     newRecurso.save();
     console.log('Recurso added');
@@ -33,7 +34,8 @@ exports.editRecurso = {
     recurso.update({_id : request.params.recursoId},
       {id_Recurso: {type: String, unique: true, required: true},
       nombre: String,
-      descripcion: String,}).exec();
+      descripcion: String,
+      recursos:[String],}).exec();
       reply("Recurso edited")
 }}
 
