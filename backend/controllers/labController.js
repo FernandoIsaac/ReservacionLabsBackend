@@ -1,8 +1,8 @@
-var dog = require('../schemas/lab');
+var lab = require('../schemas/lab');
 
 exports.listLabs = {
   handler: function(request, reply){
-    var labss = lab.find({});
+    var labs = lab.find({});
     reply(labs);
 }
 }

@@ -26,6 +26,21 @@ exports.addDocente = {
   }
 }
 
+exports.editDocente = {
+  handler: function(request, reply){
+    docente.update({_id : request.params.DocenteId},
+      {email: request.payload.email,
+      password: request.payload.password,
+      primerNombre: request.payload.primerNombre,
+      segundoNombre: request.payload.segundoNombre,
+      primerApellido: request.payload.primerApellido,
+      segundoApellido: request.payload.segundoApellido,
+      campus: request.payload.campus,
+      departamento: request.payload.departamento,
+      telefono: request.payload.telefono,}).exec();
+      reply("Docente edited")
+}}
+
 exports.removeDocente = {
   handler: function(request, reply){
     docente.find({_id: request.params.docenteId}).remove().exec();
