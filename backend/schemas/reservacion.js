@@ -8,6 +8,8 @@ var ReservacionSchema = new mongoose.Schema({
   fecha_final: Date,
   hora_inicial: Date,
   hora_final: Date,
+  emaildocente: String,
+  id_Laboratorio: String,
 });
 
 module.exports = mongoose.model('Reservacion', ReservacionSchema);

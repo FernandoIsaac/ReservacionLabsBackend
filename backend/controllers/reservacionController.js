@@ -25,6 +25,8 @@ exports.addReservacion = {
       fecha_final: request.payload.fecha_final,
       hora_inicial: request.payload.hora_inicial,
       hora_final: request.payload.hora_final,
+      emaildocente: request.payload.emaildocente,
+      id_Laboratorio: request.payload.id_Laboratorio,
     });
     newReservacion.save();
     console.log('Reservacion added');
@@ -41,7 +43,9 @@ exports.editReservacion = {
       fecha_inicial: request.payload.fecha_inicial,
       fecha_final: request.payload.fecha_final,
       hora_inicial: request.payload.hora_inicial,
-      hora_final: request.payload.hora_final,}).exec();
+      hora_final: request.payload.hora_final,
+      emaildocente: request.payload.emaildocente,
+      id_Laboratorio: request.payload.id_Laboratorio,}).exec();
       reply("Reservacion edited")
 }}
 
