@@ -3,6 +3,7 @@ var authController = require('./controllers/authController');
 var labController = require('./controllers/labController');
 var docenteController = require('./controllers/docenteController');
 var reservacionController = require('./controllers/reservacionController');
+var recursoController = require('./controllers/recursoController');
 
 
 exports.endpoints = [{method: 'GET', path: '/', config: {handler: function(request, reply){reply('API v1, LABS')}}},
@@ -22,6 +23,12 @@ exports.endpoints = [{method: 'GET', path: '/', config: {handler: function(reque
 	{method: 'DELETE', path: '/v1/removeReservacion/{reservacionId}', config: reservacionController.removeReservacion},
 	{method: 'GET', path: '/v1/listReservaciones', config: reservacionController.listReservaciones},
 	{method: 'GET', path: '/v1/getReservacion/{reservacionId}', config: reservacionController.getReservacion},
+
+	{method: 'POST', path: '/v1/addRecurso', config: recursoController.addRecurso},
+	{method: 'PUT', path: '/v1/editRecurso/{recursoId}', config: recursoController.editRecurso},
+	{method: 'DELETE', path: '/v1/removeRecurso/{recursoId}', config: recursoController.removeRecurso},
+	{method: 'GET', path: '/v1/listecurso', config: recursoController.listRecurso},
+	{method: 'GET', path: '/v1/getRecurso/{recursoId}', config: recursoController.getRecurso},
 
 	{method: 'POST', path: '/v1/addDocente', config: docenteController.addDocente},
 	{method: 'PUT', path: '/v1/editDocente/{docenteId}', config: docenteController.editDocente},

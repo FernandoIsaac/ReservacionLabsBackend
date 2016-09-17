@@ -34,7 +34,7 @@ exports.addReservacion = {
 
 exports.editReservacion = {
   handler: function(request, reply){
-    reservacion.update({_id : request.params.ReservacionId},
+    reservacion.update({_id : request.params.reservacionId},
       {id_Reservacion: request.payload.id_Reservacion,
       descripcion: request.payload.descripcion,
       estado: request.payload.estado,
