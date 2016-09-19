@@ -19,6 +19,7 @@ exports.addDocente = {
       campus: request.payload.campus,
       departamento: request.payload.departamento,
       telefono: request.payload.telefono,
+      scope: request.payload.scope,
     });
     newDocente.save();
     console.log('Docente added');
