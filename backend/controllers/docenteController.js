@@ -38,7 +38,8 @@ exports.editDocente = {
       segundoApellido: request.payload.segundoApellido,
       campus: request.payload.campus,
       departamento: request.payload.departamento,
-      telefono: request.payload.telefono,}).exec();
+      telefono: request.payload.telefono,
+      scope: request.payload.scope,}).exec();
       reply("Docente edited")
 }}
 
