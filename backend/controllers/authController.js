@@ -13,10 +13,10 @@ exports.login = {
     },
     handler: function(request, reply) {
       var password = String(SHA3(request.payload.password));
-      user.find({email: request.payload.email, password: password}, function(err, docente){
+      docente.find({email: request.payload.email, password: password}, function(err, docente){
 
           if(!err){
-            if(user.length > 0){
+            if(docente.length > 0){
               request.cookieAuth.set(docente[0]);
               return reply({email: docente[0].email, scope: docente[0].scope});
             }
