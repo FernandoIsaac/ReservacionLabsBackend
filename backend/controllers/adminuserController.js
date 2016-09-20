@@ -1,6 +1,10 @@
 var docente = require('../schemas/docente');
 var SHA3 = require("crypto-js/sha3");
 var boom = require('boom');
+var pg = require("pg");
+var conString = "pg://postgres:xandre1996&@localhost:5432/ReservacionLab";
+var client = new pg.Client(conString);
+client.connect();
 
 exports.createDocente = {
     auth: {
@@ -9,25 +13,6 @@ exports.createDocente = {
     },
     handler: function(request, reply) {
       console.log(request.payload);
-       var newDocente = new docente({
-         email: request.payload.email,
-         password: SHA3(request.payload.password),
-         primerNombre: request.payload.primerNombre,
-         segundoNombre: request.payload.segundoNombre,
-         primerApellido: request.payload.primerApellido,
-         segundoApellido: request.payload.segundoApellido,
-         campus: request.payload.campus,
-         departamento: request.payload.departamento,
-         telefono: request.payload.telefono,
-         scope : request.payload.scope
-       });
-       newDocente.save(function (err) {
-         console.log(err);
-         if(err){
-          return reply(boom.notAcceptable('Email must be unique: ' + err));
-         }else{
-           return reply('ok');
-         };
-      });
+      client.query("INSERT INTO Docente VALUES(request.payload.email, SHA3(request.payload.password), request.payload.primerNombre, request.payload.segundoNombre, request.payload.primerApellido, payload.segundoApellido, request.payload.campus, request.payload.departamento, request.payload.telefono, request.payload.scope)");
     }
   };

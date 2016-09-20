@@ -1,4 +1,7 @@
 var recurso = require('../schemas/recurso');
+var pg = require("pg");
+var conString = "pg://postgres:xandre1996&@localhost:5432/ReservacionLab";
+var client = new pg.Client(conString);
 
 exports.listRecurso = {
   handler: function(request, reply){
@@ -17,15 +20,9 @@ exports.getRecurso = {
 
 exports.addRecurso = {
   handler: function(request, reply){
-    var newRecurso = new recurso({
-      id_Recurso: {type: String, unique: true, required: true},
-      nombre: String,
-      descripcion: String,
-      recursos: [String],
-    });
-    newRecurso.save();
-    console.log('Recurso added');
-    reply(newRecurso);
+    console.log("Entra aqui a addRecurso");
+    client.query("INSERT INTO Recurso VALUES(request.payload.id_Recurso, request.payload.nombre, request.payload.descripcion)");
+    reply("Recurso agregado")
   }
 }
 
