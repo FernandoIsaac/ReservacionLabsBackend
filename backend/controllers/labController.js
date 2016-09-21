@@ -66,7 +66,7 @@ exports.addLab = {
           console.log(err);
           return reply.status(500).json({ success: false, data: err});
         }
-        client.query("INSERT INTO Laboratorio values($1, $2, $3, $4,$5)", [request.payload.id_Laboratorio, request.payload.nombre, request.payload.descripcion,request.payload.ubicacion,request.payload.capacidad]);
+        client.query("INSERT INTO Laboratorio values($1, $2, $3, $4)", [request.payload.id_Laboratorio, request.payload.nombre, request.payload.descripcion,request.payload.capacidad]);
 
     });
   }
@@ -81,7 +81,7 @@ exports.editLab = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("UPDATE Laboratorio SET nombre = ($1), descripcion = ($2),ubicacion = ($3), capacidad = ($4) WHERE id_Laboratorio = ($5)",[request.payload.nombre, request.payload.descripcion,request.payload.ubicacion,request.payload.capacidad,request.params.labId]);
+        client.query("UPDATE Laboratorio SET nombre = ($1), descripcion = ($2), capacidad = ($3) WHERE id_Laboratorio = ($4)",[request.payload.nombre, request.payload.descripcion,request.payload.capacidad,request.params.labId]);
 
     });
   }
