@@ -66,7 +66,7 @@ exports.addReservacion = {
           return reply.status(500).json({ success: false, data: err});
         }
         client.query("INSERT INTO Reservacion values($1, $2, $3, $4, $5, $6, $7, $8, $9)", [request.payload.id_Reservacion, request.payload.descripcion, request.payload.estado, request.payload.fecha_inicial, request.payload.fecha_final, request.payload.hora_inicial, request.payload.hora_final, request.payload.emaildocente, request.payload.id_Laboratorio]);
-
+        reply("Rservacion Added");
     });
     console.log('Reservacion added');
   }
@@ -81,10 +81,10 @@ exports.editReservacion = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("UPDATE Reservacion SET descripcion = ($1), estado = ($2), fecha_inicial = ($3), fecha_final = ($4), hora_inicial = ($5), hora_final = ($6), emaildocente = ($7), id_Laboratorio = ($8) WHERE id_Rervacion = ($9)", [request.payload.descripcion, request.payload.estado, request.payload.fecha_inicial, request.payload.fecha_final, request.payload.hora_inicial, request.payload.hora_final, request.payload.emaildocente, request.payload.id_Laboratorio, request.params.reservacionId]);
-
+        client.query("UPDATE Reservacion SET descripcion = ($1), estado = ($2), fecha_inicial = ($3), fecha_final = ($4), hora_inicial = ($5), hora_final = ($6), email_docente = ($7), id_Laboratorio = ($8) WHERE id_Reservacion = ($9)", [request.payload.descripcion, request.payload.estado, request.payload.fecha_inicial, request.payload.fecha_final, request.payload.hora_inicial, request.payload.hora_final, request.payload.emaildocente, request.payload.id_Laboratorio, request.params.reservacionId]);
+        reply("Reservacion edited")
     });
-      reply("Reservacion edited")
+
   }
 }
 
@@ -98,7 +98,7 @@ exports.removeReservacion = {
         }
 
         client.query("DELETE FROM Reservacion WHERE id_Reservacion = ($1)", [request.params.reservacionId]);
-
+        reply("Reservacion Deleted")
     });
   }
 }

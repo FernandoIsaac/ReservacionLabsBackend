@@ -66,12 +66,10 @@ exports.addRecurso = {
           console.log(err);
           return reply.status(500).json({ success: false, data: err});
         }
-        
+
         client.query("INSERT INTO Recurso values($1, $2, $3)", [request.payload.id_Recurso, request.payload.nombre, request.payload.descripcion]);
-
+        reply("Recurso agregado")
     });
-
-    reply("Recurso agregado")
   }
 }
 
@@ -85,9 +83,9 @@ exports.editRecurso = {
           }
 
           client.query("UPDATE Recurso SET nombre = ($1), descripcion = ($2) WHERE id_Recurso = ($3)", [request.payload.nombre, request.payload.descripcion, request.params.recursoId]);
-
+          reply("Recurso edited")
       });
-        reply("Recurso edited")
+
     }
 }
 
@@ -102,8 +100,8 @@ exports.removeRecurso = {
           }
 
           client.query("DELETE FROM Recurso WHERE id_Recurso = ($1)", [request.params.recursoId]);
-
+          reply("Recurso removed");
       });
-    reply("Recurso removed");
+
   }
 }
