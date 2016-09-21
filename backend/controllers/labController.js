@@ -81,7 +81,7 @@ exports.editLab = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("UPDATE Laboratorio SET nombre = ($1), descripcion = ($2), capacidad = ($3) WHERE id_Laboratorio = ($4)",[request.payload.nombre, request.payload.descripcion,request.payload.capacidad,request.payload.id_Laboratorio]);
+        client.query("UPDATE Laboratorio SET nombre = ($1), descripcion = ($2), capacidad = ($3) WHERE id_Laboratorio = ($4)",[request.payload.nombre, request.payload.descripcion,request.payload.capacidad,request.params.labId]);
 
     });
   }
