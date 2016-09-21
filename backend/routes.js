@@ -31,8 +31,9 @@ exports.endpoints = [{method: 'GET', path: '/', config: {handler: function(reque
 	{method: 'GET', path: '/v1/getRecurso/{recursoId}', config: recursoController.getRecurso},
 
 	{method: 'POST', path: '/v1/addDocente', config: docenteController.addDocente},
-	{method: 'PUT', path: '/v1/editDocente/{docenteId}', config: docenteController.editDocente},
+	{method: 'PUT', path: '/v1/editDocente/{email}', config: docenteController.editDocente},
 	{method: 'GET', path: '/v1/listDocente', config: docenteController.listDocentes},
-	{method: 'DELETE', path: '/v1/removeDocente/{docenteId}', config: docenteController.removeDocente},
+	{method: 'DELETE', path: '/v1/removeDocente/{email}', config: docenteController.removeDocente},
+	{method: 'GET', path: '/v1/getDocente/{email}', config: docenteController.getDocente},
 
 ];

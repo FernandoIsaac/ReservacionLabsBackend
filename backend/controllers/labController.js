@@ -1,46 +1,104 @@
-var lab = require('../schemas/lab');
+var pg = require("pg");
+var conString = "pg://postgres:xandre1996&@localhost:5432/ReservacionLab";
+var client = new pg.Client(conString);
 
 exports.listLabs = {
   handler: function(request, reply){
-    var labs = lab.find({});
-    reply(labs);
-}
+    var lab = [];
+
+    pg.connect(conString, function(err, client, done) {
+        if(err) {
+          done();
+          console.log(err);
+          return reply.status(500).json({ success: false, data: err});
+        }
+
+        var query = client.query("SELECT * FROM Laboratorio");
+
+        query.on('row', function(row) {
+            lab.push(row);
+        });
+
+        query.on('end', function() {
+            done();
+            return reply(lab);
+        });
+
+    });
+    console.log('get Laboratorio success')
+  }
 }
 
 exports.getLab = {
   handler: function(request, reply){
-    var labs = lab.find({_id:request.params.labId});
-    reply(labs);
-    console.log('get Lab success')
+    var lab = [];
+
+    pg.connect(conString, function(err, client, done) {
+        if(err) {
+          done();
+          console.log(err);
+          return reply.status(500).json({ success: false, data: err});
+        }
+
+        var query = client.query("SELECT * FROM Laboratorio Where id_Laboratorio = ($1) ",[request.params.labId]);
+
+        query.on('row', function(row) {
+            lab.push(row);
+        });
+
+        query.on('end', function() {
+            done();
+            return reply(lab);
+        });
+
+    });
+    console.log('get Laboratorio success')
   }
 }
 
+
 exports.addLab = {
   handler: function(request, reply){
-    var newLab = new lab({
-      id_Laboratorio: request.payload.id_Laboratorio,
-      nombre: request.payload.nombre,
-      descripcion: request.payload.descripcion,
-      capacidad: request.payload.capacidad,
+    pg.connect(conString, function(err, client, done) {
+        // Handle connection errors
+        if(err) {
+          done();
+          console.log(err);
+          return reply.status(500).json({ success: false, data: err});
+        }
+        client.query("INSERT INTO Laboratorio values($1, $2, $3, $4)", [request.payload.id_Laboratorio, request.payload.nombre, request.payload.descripcion,request.payload.capacidad]);
+
     });
-    newLab.save();
-    console.log('Lab added');
-    reply(newLab);
   }
 }
 
 exports.editLab = {
   handler: function(request, reply){
-    lab.update({_id : request.params.LabId},
-      {id_Laboratorio: request.payload.id_Laboratorio,
-      nombre: request.payload.nombre,
-      descripcion: request.payload.descripcion,
-      capacidad: request.payload.capacidad,}).exec();
-      reply("Lab edited")
-}}
+    pg.connect(conString, function(err, client, done) {
+        if(err) {
+          done();
+          console.log(err);
+          return reply.status(500).json({ success: false, data: err});
+        }
+
+        client.query("UPDATE Laboratorio SET nombre = ($1), descripcion = ($2), capacidad = ($3) WHERE id_Laboratorio = ($4)",[request.payload.nombre, request.payload.descripcion,request.payload.capacidad,request.payload.id_Laboratorio]);
+
+    });
+  }
+}
 
 exports.removeLab = {
   handler: function(request, reply){
-    lab.find({_id: request.params.labId}).remove().exec();
+    pg.connect(conString, function(err, client, done) {
+        if(err) {
+          done();
+          console.log(err);
+          return reply.status(500).json({ success: false, data: err});
+        }
+
+        client.query("DELETE FROM Laboratorio WHERE id_Laboratorio = ($1)", [request.params.labId]);
+
+    });
     reply("Lab removed");
-}}
+  }
+}

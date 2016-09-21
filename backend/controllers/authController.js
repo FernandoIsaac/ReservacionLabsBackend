@@ -1,6 +1,5 @@
 var joi = require('joi');
 var boom = require('boom');
-var docente = require('../schemas/docente');
 var SHA3 = require("crypto-js/sha3");
 
 exports.login = {

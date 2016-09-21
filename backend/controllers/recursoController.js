@@ -1,13 +1,32 @@
-var recurso = require('../schemas/recurso');
 var pg = require("pg");
 var conString = "pg://postgres:xandre1996&@localhost:5432/ReservacionLab";
 var client = new pg.Client(conString);
 
 exports.listRecurso = {
   handler: function(request, reply){
-    var recursos = recurso.find({});
-    reply(recursos);
-}
+    var recurso = [];
+
+    pg.connect(conString, function(err, client, done) {
+        if(err) {
+          done();
+          console.log(err);
+          return reply.status(500).json({ success: false, data: err});
+        }
+
+        var query = client.query("SELECT * FROM Recurso");
+
+        query.on('row', function(row) {
+            recurso.push(row);
+        });
+
+        query.on('end', function() {
+            done();
+            return reply(recurso);
+        });
+
+    });
+    console.log('get Laboratorio success')
+  }
 }
 
 exports.getRecurso = {
@@ -21,7 +40,7 @@ exports.getRecurso = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        var query = client.query("SELECT * FROM Recurso Where id_Recurso = $1 ",[request.params.recursoId]);
+        var query = client.query("SELECT * FROM Recurso Where id_Recurso = ($1) ",[request.params.recursoId]);
 
         query.on('row', function(row) {
             recurso.push(row);
@@ -39,7 +58,6 @@ exports.getRecurso = {
 
 exports.addRecurso = {
   handler: function(request, reply){
-    console.log("Entra aqui a addRecurso");
 
     pg.connect(conString, function(err, client, done) {
         // Handle connection errors
@@ -57,32 +75,34 @@ exports.addRecurso = {
 }
 
 exports.editRecurso = {
-  handler: function(request, reply){
-    pg.connect(conString, function(err, client, done) {
-        if(err) {
-          done();
-          console.log(err);
-          return reply.status(500).json({ success: false, data: err});
-        }
+    handler: function(request, reply){
+      pg.connect(conString, function(err, client, done) {
+          if(err) {
+            done();
+            console.log(err);
+            return reply.status(500).json({ success: false, data: err});
+          }
 
-        client.query("UPDATE Recurso SET nombre = ($1), descripcion = ($2) WHERE id_Recurso = ($3)", [request.payload.nombre, request.payload.descripcion, request.params.recursoId]);
+          client.query("UPDATE Recurso SET nombre = ($1), descripcion = ($2) WHERE id_Recurso = ($3)", [request.payload.nombre, request.payload.descripcion, request.params.recursoId]);
 
-    });
-      reply("Recurso edited")
-}}
+      });
+        reply("Recurso edited")
+    }
+}
 
 exports.removeRecurso = {
   handler: function(request, reply){
 
-        pg.connect(conString, function(err, client, done) {
-            if(err) {
-              done();
-              console.log(err);
-              return reply.status(500).json({ success: false, data: err});
-            }
+      pg.connect(conString, function(err, client, done) {
+          if(err) {
+            done();
+            console.log(err);
+            return reply.status(500).json({ success: false, data: err});
+          }
 
-            client.query("DELETE FROM Recurso WHERE id_Recurso = ($1)", [request.params.recursoId]);
+          client.query("DELETE FROM Recurso WHERE id_Recurso = ($1)", [request.params.recursoId]);
 
-        });
+      });
     reply("Recurso removed");
-}}
+  }
+}
