@@ -2,7 +2,7 @@ var pg = require("pg");
 var conString = "pg://postgres:xandre1996&@localhost:5432/ReservacionLab";
 var client = new pg.Client(conString);
 
-exports.listRecurso = {
+exports.listRecursos = {
   handler: function(request, reply){
     var recurso = [];
 
