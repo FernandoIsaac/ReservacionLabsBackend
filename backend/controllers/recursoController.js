@@ -66,6 +66,7 @@ exports.addRecurso = {
           console.log(err);
           return reply.status(500).json({ success: false, data: err});
         }
+        
         client.query("INSERT INTO Recurso values($1, $2, $3)", [request.payload.id_Recurso, request.payload.nombre, request.payload.descripcion]);
 
     });

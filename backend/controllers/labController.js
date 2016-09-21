@@ -66,6 +66,7 @@ exports.addLab = {
           console.log(err);
           return reply.status(500).json({ success: false, data: err});
         }
+      
         client.query("INSERT INTO Laboratorio values($1, $2, $3, $4, $5)", [request.payload.id_Laboratorio, request.payload.nombre, request.payload.descripcion,request.payload.ubicacion,request.payload.capacidad]);
 
     });
