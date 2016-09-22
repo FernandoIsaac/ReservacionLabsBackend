@@ -40,7 +40,7 @@ exports.getRecurso = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        var query = client.query("SELECT * FROM Recurso Where id_Recurso = ($1) ",[request.params.recursoId]);
+        var query = client.query("SELECT * FROM Recurso Where id_Recurso = ($1) ",[request.payload.recursoId]);
 
         query.on('row', function(row) {
             recurso.push(row);
@@ -82,7 +82,7 @@ exports.editRecurso = {
             return reply.status(500).json({ success: false, data: err});
           }
 
-          client.query("UPDATE Recurso SET nombre = ($1), descripcion = ($2) WHERE id_Recurso = ($3)", [request.payload.nombre, request.payload.descripcion, request.params.recursoId]);
+          client.query("UPDATE Recurso SET nombre = ($1), descripcion = ($2) WHERE id_Recurso = ($3)", [request.payload.nombre, request.payload.descripcion, request.payload.recursoId]);
           reply("Recurso edited")
       });
 
@@ -99,7 +99,7 @@ exports.removeRecurso = {
             return reply.status(500).json({ success: false, data: err});
           }
 
-          client.query("DELETE FROM Recurso WHERE id_Recurso = ($1)", [request.params.recursoId]);
+          client.query("DELETE FROM Recurso WHERE id_Recurso = ($1)", [request.payload.recursoId]);
           reply("Recurso removed");
       });
 

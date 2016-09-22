@@ -41,7 +41,7 @@ exports.getDocente = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-          var query = client.query("SELECT * FROM Docente Where email = ($1) ",[request.params.email]);
+          var query = client.query("SELECT * FROM Docente Where email = ($1) ",[request.payload.email]);
 
         query.on('row', function(row) {
             docente.push(row);
@@ -83,7 +83,7 @@ exports.editDocente = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("UPDATE Docente SET password = ($1), primerNombre = ($2), segundoNombre = ($3), primerApellido = ($4), segundoApellido = ($5), campus = ($6), departamento = ($7), telefono = ($8), scope = ($9) WHERE email = ($10)",[String(SHA3(request.payload.password)), request.payload.primerNombre, request.payload.segundoNombre, request.payload.primerApellido, request.payload.segundoApellido, request.payload.campus, request.payload.departamento, request.payload.telefono, 'docente',request.params.email]);
+        client.query("UPDATE Docente SET password = ($1), primerNombre = ($2), segundoNombre = ($3), primerApellido = ($4), segundoApellido = ($5), campus = ($6), departamento = ($7), telefono = ($8), scope = ($9) WHERE email = ($10)",[String(SHA3(request.payload.password)), request.payload.primerNombre, request.payload.segundoNombre, request.payload.primerApellido, request.payload.segundoApellido, request.payload.campus, request.payload.departamento, request.payload.telefono, 'docente',request.payload.email]);
 
     });
     reply("Docente Modificado")
@@ -99,7 +99,7 @@ exports.removeDocente = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("DELETE FROM Docente WHERE email = ($1)", [request.params.email]);
+        client.query("DELETE FROM Docente WHERE email = ($1)", [request.payload.email]);
 
     });
     reply("Docente removed");

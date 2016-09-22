@@ -40,7 +40,7 @@ exports.getLab = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        var query = client.query("SELECT * FROM Laboratorio Where id_Laboratorio = ($1) ",[request.params.labId]);
+        var query = client.query("SELECT * FROM Laboratorio Where id_Laboratorio = ($1) ",[request.payload.labId]);
 
         query.on('row', function(row) {
             lab.push(row);
@@ -82,7 +82,7 @@ exports.editLab = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("UPDATE Laboratorio SET nombre = ($1), descripcion = ($2), ubicacion = ($3), capacidad = ($4) WHERE id_Laboratorio = ($5)",[request.payload.nombre, request.payload.descripcion,request.payload.ubicacion,request.payload.capacidad,request.params.labId]);
+        client.query("UPDATE Laboratorio SET nombre = ($1), descripcion = ($2), ubicacion = ($3), capacidad = ($4) WHERE id_Laboratorio = ($5)",[request.payload.nombre, request.payload.descripcion,request.payload.ubicacion,request.payload.capacidad,request.payload.labId]);
         reply("Lab Editado")
     });
   }
@@ -97,7 +97,7 @@ exports.removeLab = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("DELETE FROM Laboratorio WHERE id_Laboratorio = ($1)", [request.params.labId]);
+        client.query("DELETE FROM Laboratorio WHERE id_Laboratorio = ($1)", [request.payload.labId]);
         reply("Lab removed");
     });
 

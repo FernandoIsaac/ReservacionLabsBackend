@@ -40,7 +40,7 @@ exports.getRecurso_Lab = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        var query = client.query("SELECT * FROM Recursos_de_Laboratorio Where id_Laboratorio = ($1) ",[request.params.labId]);
+        var query = client.query("SELECT * FROM Recursos_de_Laboratorio Where id_Laboratorio = ($1) ",[request.payload.labId]);
 
         query.on('row', function(row) {
             recurso_Lab.push(row);
@@ -99,7 +99,7 @@ exports.removeRecurso_Lab = {
             return reply.status(500).json({ success: false, data: err});
           }
 
-          client.query("DELETE FROM Recursos_de_Laboratorio WHERE id_Recurso = ($1) AND id_Laboratorio = ($2)", [request.params.recursoId,request.params.labId]);
+          client.query("DELETE FROM Recursos_de_Laboratorio WHERE id_Recurso = ($1) AND id_Laboratorio = ($2)", [request.payload.recursoId,request.payload.labId]);
           reply("Recurso removed");
       });
 
