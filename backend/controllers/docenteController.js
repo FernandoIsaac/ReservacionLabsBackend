@@ -26,7 +26,6 @@ exports.listDocentes = {
         });
 
     });
-    console.log('get Docente success')
   }
 }
 
@@ -34,6 +33,7 @@ exports.getDocente = {
   handler: function(request, reply){
     var docente = [];
 
+    var email = request.params.email;
     pg.connect(conString, function(err, client, done) {
         if(err) {
           done();
@@ -41,7 +41,7 @@ exports.getDocente = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-          var query = client.query("SELECT * FROM Docente Where email = ($1) ",[request.payload.email]);
+          var query = client.query("SELECT * FROM Docente Where email = ($1) ",[email]);
 
         query.on('row', function(row) {
             docente.push(row);
@@ -53,7 +53,6 @@ exports.getDocente = {
         });
 
     });
-    console.log('get Docente success')
   }
 }
 
@@ -67,15 +66,16 @@ exports.addDocente = {
           return reply.status(500).json({ success: false, data: err});
         }
         client.query("INSERT INTO Docente VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9,'docente')",[request.payload.email,String(SHA3(request.payload.password)), request.payload.primerNombre, request.payload.segundoNombre, request.payload.primerApellido, request.payload.segundoApellido, request.payload.campus, request.payload.departamento, request.payload.telefono]);
-
+        reply("Docente agregado")
     });
-    reply("Docente agregado")
+
   }
 }
 
 exports.editDocente = {
   handler: function(request, reply){
-    console.log(request.payload);
+
+    var email = request.params.email;
     pg.connect(conString, function(err, client, done) {
         if(err) {
           done();
@@ -83,15 +83,16 @@ exports.editDocente = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("UPDATE Docente SET password = ($1), primerNombre = ($2), segundoNombre = ($3), primerApellido = ($4), segundoApellido = ($5), campus = ($6), departamento = ($7), telefono = ($8), scope = ($9) WHERE email = ($10)",[String(SHA3(request.payload.password)), request.payload.primerNombre, request.payload.segundoNombre, request.payload.primerApellido, request.payload.segundoApellido, request.payload.campus, request.payload.departamento, request.payload.telefono, 'docente',request.payload.email]);
-
+        client.query("UPDATE Docente SET password = ($1), primerNombre = ($2), segundoNombre = ($3), primerApellido = ($4), segundoApellido = ($5), campus = ($6), departamento = ($7), telefono = ($8), scope = ($9) WHERE email = ($10)",[String(SHA3(request.payload.password)), request.payload.primerNombre, request.payload.segundoNombre, request.payload.primerApellido, request.payload.segundoApellido, request.payload.campus, request.payload.departamento, request.payload.telefono, 'docente',email]);
+        reply("Docente Modificado");
     });
-    reply("Docente Modificado")
+
   }
 }
 
 exports.removeDocente = {
   handler: function(request, reply){
+    var email = request.params.email;
     pg.connect(conString, function(err, client, done) {
         if(err) {
           done();
@@ -99,9 +100,9 @@ exports.removeDocente = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("DELETE FROM Docente WHERE email = ($1)", [request.payload.email]);
-
+        client.query("DELETE FROM Docente WHERE email = ($1)", [email]);
+        reply("Docente removed");
     });
-    reply("Docente removed");
+
   }
 }

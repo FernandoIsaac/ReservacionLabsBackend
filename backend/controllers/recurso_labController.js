@@ -32,7 +32,7 @@ exports.listRecursos_Lab = {
 exports.getRecurso_Lab = {
   handler: function(request, reply){
     var recurso_Lab = [];
-
+    var labId = request.params.labId;
     pg.connect(conString, function(err, client, done) {
         if(err) {
           done();
@@ -40,7 +40,7 @@ exports.getRecurso_Lab = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        var query = client.query("SELECT * FROM Recursos_de_Laboratorio Where id_Laboratorio = ($1) ",[request.payload.labId]);
+        var query = client.query("SELECT * FROM Recursos_de_Laboratorio Where id_Laboratorio = ($1) ",[labId]);
 
         query.on('row', function(row) {
             recurso_Lab.push(row);
@@ -75,6 +75,8 @@ exports.addRecurso_Lab = {
 
 exports.editRecurso_Lab = {
     handler: function(request, reply){
+      var labId = request.params.labId;
+      var recursoId = request.params.recursoId;
       pg.connect(conString, function(err, client, done) {
           if(err) {
             done();
@@ -82,7 +84,7 @@ exports.editRecurso_Lab = {
             return reply.status(500).json({ success: false, data: err});
           }
 
-          client.query("UPDATE Recursos_de_Laboratorio SET id_Laboratorio = ($1), id_Recurso = ($2) WHERE id_Laboratorio = ($1)", [request.payload.id_Laboratorio, request.payload.id_Recurso]);
+          client.query("UPDATE Recursos_de_Laboratorio SET id_Laboratorio = ($1), id_Recurso = ($2) WHERE id_Laboratorio = ($1)", [labId, recursoId]);
           reply("Recurso_Lab edited")
       });
 

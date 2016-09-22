@@ -33,6 +33,7 @@ exports.getLab = {
   handler: function(request, reply){
     var lab = [];
 
+    var labId = request.params.labId;
     pg.connect(conString, function(err, client, done) {
         if(err) {
           done();
@@ -40,7 +41,7 @@ exports.getLab = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        var query = client.query("SELECT * FROM Laboratorio Where id_Laboratorio = ($1) ",[request.payload.labId]);
+        var query = client.query("SELECT * FROM Laboratorio Where id_Laboratorio = ($1) ",[labId]);
 
         query.on('row', function(row) {
             lab.push(row);
@@ -75,14 +76,14 @@ exports.addLab = {
 
 exports.editLab = {
   handler: function(request, reply){
+    var labId = request.params.labId;
     pg.connect(conString, function(err, client, done) {
         if(err) {
           done();
           console.log(err);
           return reply.status(500).json({ success: false, data: err});
         }
-
-        client.query("UPDATE Laboratorio SET nombre = ($1), descripcion = ($2), ubicacion = ($3), capacidad = ($4) WHERE id_Laboratorio = ($5)",[request.payload.nombre, request.payload.descripcion,request.payload.ubicacion,request.payload.capacidad,request.payload.labId]);
+        client.query("UPDATE Laboratorio SET nombre = ($1), descripcion = ($2), ubicacion = ($3), capacidad = ($4) WHERE id_Laboratorio = ($5)",[request.payload.nombre, request.payload.descripcion,request.payload.ubicacion,request.payload.capacidad,labId]);
         reply("Lab Editado")
     });
   }
@@ -90,6 +91,7 @@ exports.editLab = {
 
 exports.removeLab = {
   handler: function(request, reply){
+    var labId = request.params.labId;
     pg.connect(conString, function(err, client, done) {
         if(err) {
           done();
@@ -97,7 +99,7 @@ exports.removeLab = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("DELETE FROM Laboratorio WHERE id_Laboratorio = ($1)", [request.payload.labId]);
+        client.query("DELETE FROM Laboratorio WHERE id_Laboratorio = ($1)", [labId]);
         reply("Lab removed");
     });
 

@@ -32,7 +32,7 @@ exports.listRecursos = {
 exports.getRecurso = {
   handler: function(request, reply){
     var recurso = [];
-
+    var recursoId = request.params.recursoId;
     pg.connect(conString, function(err, client, done) {
         if(err) {
           done();
@@ -40,7 +40,7 @@ exports.getRecurso = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        var query = client.query("SELECT * FROM Recurso Where id_Recurso = ($1) ",[request.payload.recursoId]);
+        var query = client.query("SELECT * FROM Recurso Where id_Recurso = ($1) ",[recursoId]);
 
         query.on('row', function(row) {
             recurso.push(row);
@@ -75,6 +75,7 @@ exports.addRecurso = {
 
 exports.editRecurso = {
     handler: function(request, reply){
+      var recursoId = request.params.recursoId;
       pg.connect(conString, function(err, client, done) {
           if(err) {
             done();
@@ -82,7 +83,7 @@ exports.editRecurso = {
             return reply.status(500).json({ success: false, data: err});
           }
 
-          client.query("UPDATE Recurso SET nombre = ($1), descripcion = ($2) WHERE id_Recurso = ($3)", [request.payload.nombre, request.payload.descripcion, request.payload.recursoId]);
+          client.query("UPDATE Recurso SET nombre = ($1), descripcion = ($2) WHERE id_Recurso = ($3)", [request.payload.nombre, request.payload.descripcion, recursoId]);
           reply("Recurso edited")
       });
 
@@ -91,7 +92,7 @@ exports.editRecurso = {
 
 exports.removeRecurso = {
   handler: function(request, reply){
-
+    var recursoId = request.params.recursoId;
       pg.connect(conString, function(err, client, done) {
           if(err) {
             done();
@@ -99,7 +100,7 @@ exports.removeRecurso = {
             return reply.status(500).json({ success: false, data: err});
           }
 
-          client.query("DELETE FROM Recurso WHERE id_Recurso = ($1)", [request.payload.recursoId]);
+          client.query("DELETE FROM Recurso WHERE id_Recurso = ($1)", [recursoId]);
           reply("Recurso removed");
       });
 

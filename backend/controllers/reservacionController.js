@@ -6,6 +6,7 @@ exports.getReservacion = {
   handler: function(request, reply){
     var reservacion = [];
 
+    var reservacionId = request.params.reservacionId;
     pg.connect(conString, function(err, client, done) {
         if(err) {
           done();
@@ -13,7 +14,7 @@ exports.getReservacion = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        var query = client.query("SELECT * FROM Reservacion Where id_Reservacion = ($1) ",[request.payload.reservacionId]);
+        var query = client.query("SELECT * FROM Reservacion Where id_Reservacion = ($1) ",[reservacionId]);
 
         query.on('row', function(row) {
             reservacion.push(row);
@@ -74,6 +75,7 @@ exports.addReservacion = {
 
 exports.editReservacion = {
   handler: function(request, reply){
+    var reservacionId = request.params.reservacionId;
     pg.connect(conString, function(err, client, done) {
         if(err) {
           done();
@@ -81,7 +83,7 @@ exports.editReservacion = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("UPDATE Reservacion SET descripcion = ($1), estado = ($2), fecha_inicial = ($3), fecha_final = ($4), hora_inicial = ($5), hora_final = ($6), email_docente = ($7), id_Laboratorio = ($8) WHERE id_Reservacion = ($9)", [request.payload.descripcion, request.payload.estado, request.payload.fecha_inicial, request.payload.fecha_final, request.payload.hora_inicial, request.payload.hora_final, request.payload.emaildocente, request.payload.id_Laboratorio, request.payload.reservacionId]);
+        client.query("UPDATE Reservacion SET descripcion = ($1), estado = ($2), fecha_inicial = ($3), fecha_final = ($4), hora_inicial = ($5), hora_final = ($6), email_docente = ($7), id_Laboratorio = ($8) WHERE id_Reservacion = ($9)", [request.payload.descripcion, request.payload.estado, request.payload.fecha_inicial, request.payload.fecha_final, request.payload.hora_inicial, request.payload.hora_final, request.payload.emaildocente, request.payload.id_Laboratorio,reservacionId]);
         reply("Reservacion edited")
     });
 
@@ -90,6 +92,7 @@ exports.editReservacion = {
 
 exports.removeReservacion = {
   handler: function(request, reply){
+    var reservacionId = request.params.reservacionId;
     pg.connect(conString, function(err, client, done) {
         if(err) {
           done();
@@ -97,7 +100,7 @@ exports.removeReservacion = {
           return reply.status(500).json({ success: false, data: err});
         }
 
-        client.query("DELETE FROM Reservacion WHERE id_Reservacion = ($1)", [request.payload.reservacionId]);
+        client.query("DELETE FROM Reservacion WHERE id_Reservacion = ($1)", [reservacionId]);
         reply("Reservacion Deleted")
     });
   }
